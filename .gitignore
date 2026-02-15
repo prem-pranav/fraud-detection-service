@@ -1,0 +1,32 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data & Results
+test_result.csv
+ecom-payment-txn/
+
+# Model Artifacts
+models/
+*.pkl
+*.joblib
+
+# Generated Visualizations
+images/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo

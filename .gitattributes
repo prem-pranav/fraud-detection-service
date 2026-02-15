@@ -1,0 +1,8 @@
+# Handle large CSV files as binary to prevent line ending conversion and improve performance
+*.csv binary
+
+# Standard text file handling
+* text=auto
+*.py text
+*.md text
+*.txt text
