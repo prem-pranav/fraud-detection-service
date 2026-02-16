@@ -19,7 +19,7 @@ models/
 *.joblib
 
 # Generated Visualizations
-images/
+#images/
 
 # OS specific
 .DS_Store
