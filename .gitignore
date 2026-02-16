@@ -11,7 +11,7 @@ __pycache__/
 
 # Data & Results
 test_result.csv
-ecom-payment-txn/
+ieee-fraud-detection/
 
 # Model Artifacts
 models/

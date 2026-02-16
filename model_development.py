@@ -17,8 +17,14 @@ warnings.filterwarnings('ignore')
 sns.set(style="whitegrid")
 
 # Paths (relative to script location)
-txn_path = "ecom-payment-txn/train_transaction.csv"
-id_path = "ecom-payment-txn/train_identity.csv"
+def get_data_path(filename, default_dir="ieee-fraud-detection"):
+    """Helper to fallback to small dataset if main one is missing"""
+    main_path = os.path.join(default_dir, filename)
+    small_path = os.path.join("ieee-fraud-detection-small", filename)
+    return main_path if os.path.exists(main_path) else small_path
+
+txn_path = get_data_path("train_transaction.csv")
+id_path = get_data_path("train_identity.csv")
 plot_dir = "images/model-development-img"
 
 if not os.path.exists(plot_dir):
@@ -296,8 +302,8 @@ def main():
     parser = argparse.ArgumentParser(description="Fraud Detection Production System")
     parser.add_argument('--train', action='store_true', help="Run production training pipeline")
     parser.add_argument('--predict', action='store_true', help="Run inference on test data")
-    parser.add_argument('--txn', type=str, default="ecom-payment-txn/test_transaction.csv", help="Path to transaction CSV")
-    parser.add_argument('--id', type=str, default="ecom-payment-txn/test_identity.csv", help="Path to identity CSV")
+    parser.add_argument('--txn', type=str, default=None, help="Path to transaction CSV")
+    parser.add_argument('--id', type=str, default=None, help="Path to identity CSV")
     parser.add_argument('--out', type=str, default="test_result.csv", help="Output results path")
     parser.add_argument('--limit', type=int, default=None, help="Limit number of rows to process (for batch testing)")
     
@@ -309,8 +315,11 @@ def main():
         print("PRODUCTION MODEL DEVELOPMENT: LIGHTGBM + ISOTONIC CALIBRATION")
         print("="*60 + "\n")
         
-        train_txn = "ecom-payment-txn/train_transaction.csv"
-        train_id = "ecom-payment-txn/train_identity.csv"
+        if args.txn and args.id:
+            train_txn, train_id = args.txn, args.id
+        else:
+            train_txn = get_data_path("train_transaction.csv")
+            train_id = get_data_path("train_identity.csv")
         model_save_path = "models/fraud_model_lgb_v1.pkl"
         encoder_save_path = "models/feature_encoders_v1.pkl"
         calibrator_save_path = "models/calibrator_v1.pkl"
@@ -347,7 +356,9 @@ def main():
         print("\nPROD TRAINING COMPLETE!")
 
     elif args.predict:
-        predict_fraud(args.txn, args.id, args.out, limit=args.limit)
+        txn = args.txn if args.txn else get_data_path("test_transaction.csv")
+        id_arg = args.id if args.id else get_data_path("test_identity.csv")
+        predict_fraud(txn, id_arg, args.out, limit=args.limit)
     else:
         parser.print_help()
 

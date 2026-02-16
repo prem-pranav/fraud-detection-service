@@ -29,6 +29,12 @@ This repository implements an end-to-end fraud detection solution that bridges t
 
 ## 📈 Engineering Roadmap
 
+### 0️⃣ Data Primer
+
+Before diving into the code, it is highly recommended to review the data dictionary and feature grouping documentation. This provides essential context on the transaction and identity attributes.
+
+- 📖 **Documentation**: [Data Understanding](data-understanding.md)
+
 ### 1️⃣ Exploratory Foundation
 
 Understand data distributions and established a baseline preprocessing strategy to handle high-cardinality categorical variables.
@@ -111,6 +117,9 @@ Score target data using the calibrated production model.
 .\.venv\Scripts\python model_development.py --predict --txn my_data_txn.csv --id my_data_id.csv --out final_results.csv --limit 1000
 ```
 
+> **💡 Quick Start Note**: All scripts automatically fallback to the `ieee-fraud-detection-small/` dataset if the full `ieee-fraud-detection/` folder is not found. This allows you to run the entire pipeline immediately using the sample data included in the repository.
+
+
 ---
 
 ## 📂 Project Structure
@@ -125,15 +134,18 @@ Score target data using the calibrated production model.
 ├── model_performance_analysis.md # Detailed Performance Findings
 ├── eda.py                       # Preliminary Exploratory Analysis Script
 ├── eda.md                       # Initial Data Insights Documentation
+├── data-understanding.md        # 📖 Data Dictionary & Feature Definitions
 ├── models/                      # Serialized Artifacts (.pkl)
 │   ├── fraud_model_lgb_v1.pkl   # Trained LightGBM model
 │   ├── calibrator_v1.pkl        # Isotonic probability calibrator
 │   └── ...                      # Other production artifacts
-├── ecom-payment-txn/            # 📦 RAW DATASET (Ignored by Git)
-│   ├── train_transaction.csv    # Main transaction features & labels
-│   ├── train_identity.csv       # Device/Network info for training
-│   ├── test_transaction.csv     # Unlabelled test transactions
-│   └── test_identity.csv        # Device/Network info for testing
+├── ieee-fraud-detection/        # 📦 FULL DATASET (Ignored by Git)
+│   # Download from: https://www.kaggle.com/datasets/niangmohamed/ieeecis-fraud-detection
+│   ├── train_transaction.csv
+│   └── ...
+├── ieee-fraud-detection-small/  # 🤏 SAMPLE DATASET (Included in Git for quick start)
+│   ├── train_transaction.csv
+│   └── ...
 ├── images/                      # 📊 VISUAL ANALYTICS
 │   ├── eda-img/                 # Exploratory plots (distributions, correlations)
 │   └── model-perf-analysis-img/ # Stability, ROC/PR curves, & business cost curves

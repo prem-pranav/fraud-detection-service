@@ -3,8 +3,8 @@ from sklearn.model_selection import train_test_split
 import os
 
 def create_samples():
-    input_dir = 'ecom-payment-txn'
-    output_dir = 'data-sample'
+    input_dir = 'ieee-fraud-detection'
+    output_dir = 'ieee-fraud-detection-small'
     
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)

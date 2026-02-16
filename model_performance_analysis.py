@@ -16,8 +16,14 @@ warnings.filterwarnings('ignore')
 sns.set(style="whitegrid")
 
 # Paths (relative to script location)
-txn_path = "ecom-payment-txn/train_transaction.csv"
-id_path = "ecom-payment-txn/train_identity.csv"
+def get_data_path(filename):
+    """Helper to fallback to small dataset if main one is missing"""
+    main_path = os.path.join("ieee-fraud-detection", filename)
+    small_path = os.path.join("ieee-fraud-detection-small", filename)
+    return main_path if os.path.exists(main_path) else small_path
+
+txn_path = get_data_path("train_transaction.csv")
+id_path = get_data_path("train_identity.csv")
 plot_dir = "images/model-perf-analysis-img"
 
 if not os.path.exists(plot_dir):
